@@ -1,20 +1,44 @@
 import React, { Component } from 'react';
-import Griddle from 'griddle-react';
+import Griddle, {
+  RowDefinition,
+  ColumnDefinition
+} from 'griddle-react';
+import { connect } from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
 
 const data = [
   {
-    id: '1',
-    name: 'Alex',
-    address: 'Russia, Saint-Petersburg'
+    "name": "Mayer Leonard",
+    "city": "Kapowsin"
   },
   {
-    id: '2',
-    name: 'Jon',
-    address: 'Space'
+    "name": "Koch Becker",
+    "city": "Johnsonburg"
   }
-]
+];
+
+const rowDataSelector = (state, { griddleKey }) => {
+  return state // State - ImmutableJS
+    .get('data')
+    .find(rowMap => rowMap.get('griddleKey') === griddleKey)
+    .toJSON();
+};
+
+const enhancedWithRowData = connect((state, props) => {
+  return {
+    // rowData will be available into MyCustomComponent
+    rowData: rowDataSelector(state, props)
+  };
+});
+
+function MyCustomComponent({ value, griddleKey, rowData }) {
+  return (
+    <div className="MyCustomComponent">
+      Person <strong>{value}</strong> from city: <em>{rowData.city} (rowData)</em>
+    </div>
+  );
+}
 
 class App extends Component {
   render() {
@@ -27,7 +51,15 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <Griddle data={data} />
+        <Griddle data={data}>
+          <RowDefinition>
+            <ColumnDefinition
+              id="name"
+              title="Persons"
+              customComponent={enhancedWithRowData(MyCustomComponent)}
+            />
+          </RowDefinition>
+        </Griddle>
       </div>
     );
   }
