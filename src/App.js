@@ -18,6 +18,16 @@ const data = [
   }
 ];
 
+/**
+ *
+ * @param {Immutable.Map} state
+ * @param props
+ * @return {Object}
+ *
+ * @see https://github.com/GriddleGriddle/Griddle/blob/master/src/selectors/dataSelectors.js
+ * @see https://facebook.github.io/immutable-js/docs/
+ * @see http://devdocs.io/immutable/index#list.find
+ */
 const rowDataSelector = (state, { griddleKey }) => {
   return state // State - ImmutableJS
     .get('data')
