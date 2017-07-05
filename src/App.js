@@ -1,6 +1,20 @@
 import React, { Component } from 'react';
+import Griddle from 'griddle-react';
 import logo from './logo.svg';
 import './App.css';
+
+const data = [
+  {
+    id: '1',
+    name: 'Alex',
+    address: 'Russia, Saint-Petersburg'
+  },
+  {
+    id: '2',
+    name: 'Jon',
+    address: 'Space'
+  }
+]
 
 class App extends Component {
   render() {
@@ -13,6 +27,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+        <Griddle data={data} />
       </div>
     );
   }
